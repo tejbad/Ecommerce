@@ -20,14 +20,14 @@ public class OrderService {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final WebClient.Builder webClientBuilder;
 
-    @Value("${inventory.service.url:http://inventory-service:8083}")
-    private String inventoryServiceUrl;
+    @Value("${product.service.url:http://localhost:8083}")
+    private String productServiceUrl;
 
     public Order placeOrder(OrderRequest request) {
         // Check stock from inventory-service via WebClient
         Boolean inStock = webClientBuilder.build()
                 .get()
-                .uri(inventoryServiceUrl+"/inventory/check?productId={productId}&qty={qty}",
+                .uri(productServiceUrl+"/products/{productId}/availability?quantity={qty}",
                         Map.of("productId", request.getProductId(), "qty", request.getQuantity()))
                 .retrieve()
                 .bodyToMono(Boolean.class)
@@ -60,7 +60,7 @@ public class OrderService {
         // Call product-service for price
         Map res = webClientBuilder.build()
                 .get()
-                .uri("http://product-service:8081/products/{id}", productId)
+                .uri("http://localhost:8081/products/{id}", productId)
                 .retrieve()
                 .bodyToMono(Map.class)
                 .block();

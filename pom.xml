@@ -10,7 +10,7 @@
         <module>service-discovery</module>
         <module>product-service</module>
         <module>order-service</module>
-        <module>inventory-service</module>
+<!--        <module>inventory-service-removed</module>-->
         <module>notification-service</module>
     </modules>
     <dependencyManagement>
@@ -27,6 +27,8 @@
     <properties>
         <java.version>23</java.version>
         <spring-cloud.version>2022.0.5</spring-cloud.version>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
     </properties>
     <build>
         <pluginManagement>

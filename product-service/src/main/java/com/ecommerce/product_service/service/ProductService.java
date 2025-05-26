@@ -19,9 +19,9 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public boolean isProductAvailable(Long productId) {
+    public boolean isProductAvailable(Long productId, Integer quantity) {
         return productRepository.findById(productId)
-                .map(product -> product.getStock() != null && product.getStock() > 0)
+                .map(product -> product.getStock() != null && product.getStock() >= quantity)
                 .orElse(false);
     }
 

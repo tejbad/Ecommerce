@@ -35,18 +35,19 @@ public class ProductController {
         return productService.createProduct(product);
     }
 
-    @Operation(summary = "Get product by id")
-    @GetMapping("/{id}")
-    public Product get(@PathVariable("id") Long id) {
-        return productService.getProductById(id).orElseThrow();
-    }
+//    @Operation(summary = "Get product by id")
+//    @GetMapping("/{id}")
+//    public Product get(@PathVariable("id") Long id) {
+//        return productService.getProductById(id).orElseThrow();
+//    }
 
     @GetMapping("/{id}/availability")
-    public ResponseEntity<?> checkAvailability(@PathVariable("id") Long id) {
-        boolean available = productService.isProductAvailable(id);
-        return ResponseEntity.ok().body("{\"available\": " + available + "}");
+    public ResponseEntity<?> checkAvailability(@PathVariable("id") Long id, @RequestParam("quantity") Integer quantity) {
+        boolean available = productService.isProductAvailable(id,quantity);
+        return ResponseEntity.ok().body(available);
     }
 
+    @Operation(summary = "Get product by id")
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
         Optional<Product> product = productService.getProductById(id);
